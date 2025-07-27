@@ -69,9 +69,9 @@
 # Future Work
 
 {I will like to:
-_ Improve Category Filter: Replace the text input with a dropdown of predefined categories (e.g., "General", "Health", "Tech") for better usability.
-_ Add Pagination: Implement pagination for the topic list to handle large numbers of topics efficiently.
-_ Enhance Styling: Add responsive design (e.g., Bootstrap) to improve appearance on mobile devices.
-_ Rich Text Editor: Integrate a rich text editor (e.g., CKEditor) for topic and comment content to support formatting.
 
+- Improve Category Filter: Replace the text input with a dropdown of predefined categories (e.g., "General", "Health", "Tech") for better usability.
+- Add Pagination: Implement pagination for the topic list to handle large numbers of topics efficiently.
+- Enhance Styling: Add responsive design (e.g., Bootstrap) to improve appearance on mobile devices.
+- Rich Text Editor: Integrate a rich text editor (e.g., CKEditor) for topic and comment content to support formatting.
 - User Profiles: Add user profile pages to display user details and their posted topics/comments.}
