@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ topic.title }}</title>
+    {% load static %}
+    <link href="{% static 'discussion/style.css' %}" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a class="navbar-brand" href="{% url 'topic_list' %}">Discussion Forum</a>
+            <div class="navbar-nav">
+                {% if user.is_authenticated %}
+                    <span class="nav-text">Welcome, {{ user.username }}</span>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="nav-button">Logout</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+                    <a href="{% url 'register' %}">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    <div class="content-container">
+        <h1>{{ topic.title }}</h1>
+        <p>{{ topic.content }}</p>
+        <p>By {{ topic.creator }} on {{ topic.creation_date }}</p>
+        {% if topic.creator == user %}
+            <a href="{% url 'edit_topic' topic.pk %}" class="btn btn-small btn-primary">Edit Topic</a>
+            <form method="post" action="{% url 'user_delete_topic' topic.pk %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-small btn-danger">Delete Topic</button>
+            </form>
+        {% endif %}
+        {% if user.is_staff %}
+            <form method="post" action="{% url 'delete_topic' topic.pk %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-small btn-danger">Admin Delete Topic</button>
+            </form>
+        {% endif %}
+        <h2 class="form-group">Comments</h2>
+        <ul class="list-unstyled">
+            {% for comment in comments %}
+                <li class="comment-item">
+                    {{ comment.content }} by {{ comment.author }} ({{ comment.timestamp }})
+                    {% if comment.author == user %}
+                        <a href="{% url 'edit_comment' comment.pk %}" class="btn btn-small btn-primary">Edit</a>
+                        <form method="post" action="{% url 'user_delete_comment' comment.pk %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-small btn-danger">Delete</button>
+                        </form>
+                    {% endif %}
+                    {% if user.is_staff %}
+                        <form method="post" action="{% url 'delete_comment' comment.pk %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-small btn-danger">Admin Delete</button>
+                        </form>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+        {% if user.is_authenticated %}
+            <form method="post" class="form-group">
+                {% csrf_token %}
+                <div class="form-group">
+                    <textarea name="content" placeholder="Add a comment" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Post Comment</button>
+            </form>
+        {% else %}
+            <p class="form-group"><a href="{% url 'login' %}" class="btn btn-secondary">Login to comment</a></p>
+        {% endif %}
+        <p class="form-group"><a href="{% url 'topic_list' %}" class="btn btn-secondary">Back to Topics</a></p>
+    </div>
+</body>
+</html>

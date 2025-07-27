@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discussion Forum</title>
+    {% load static %}
+    <link href="{% static 'discussion/style.css' %}" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a class="navbar-brand" href="{% url 'topic_list' %}">Anana Discussion Forum</a>
+            <div class="navbar-nav">
+                {% if user.is_authenticated %}
+                    <span class="nav-text">Welcome, {{ user.username }}</span>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="nav-button">Logout</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+                    <a href="{% url 'register' %}">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    <div class="content-container">
+        <h1>Discussion Forum</h1>
+        {% if user.is_authenticated %}
+            <form method="post" action="{% url 'topic_list' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ form.as_p }}
+                </div>
+                <button type="submit" class="btn btn-primary">Create Topic</button>
+            </form>
+        {% endif %}
+        <h2 class="form-group">Topics</h2>
+        <form method="get" class="form-group">
+            <div class="form-group">
+                <input type="text" name="category" placeholder="Filter by Category" value="{{ request.GET.category }}">
+                <button type="submit" class="btn btn-secondary">Filter</button>
+            </div>
+        </form>
+        <ul class="list-unstyled">
+            {% for topic in topics %}
+                <li class="topic-item">
+                    <a href="{% url 'topic_detail' topic.pk %}">{{ topic.title }}</a> by {{ topic.creator }} ({{ topic.creation_date }})
+                    {% if topic.creator == user %}
+                        <a href="{% url 'edit_topic' topic.pk %}" class="btn btn-small btn-primary">Edit</a>
+                        <form method="post" action="{% url 'user_delete_topic' topic.pk %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-small btn-danger">Delete</button>
+                        </form>
+                    {% endif %}
+                    {% if user.is_staff %}
+                        <form method="post" action="{% url 'delete_topic' topic.pk %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-small btn-danger">Admin Delete</button>
+                        </form>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
