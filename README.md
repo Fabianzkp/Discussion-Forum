@@ -60,11 +60,11 @@
 - [Django Tutorial (Mozilla Developer Network)](https://developer.mozilla.org/en-US/docs/Learn Server-side/Django)
 - [W3Schools CSS Tutorial](https://www.w3schools.com/css/)
 - [Python Official Documentation](https://docs.python.org/3/)
-- [Stack Overflow - Django Tag](https://stackoverflow.com/questions/tagged/django)}
+- [Stack Overflow - Django Tag](https://stackoverflow.com/questions/tagged/django)
 
 - [Python Official Documentation: Guidance on Python syntax and best practices.](https://docs.python.org/3/)
 
-- [Stack Overflow: Community-driven solutions for Django and Python issues.](https://stackoverflow.com/questions/tagged/django)
+- [Stack Overflow: Community-driven solutions for Django and Python issues.](https://stackoverflow.com/questions/tagged/django)}
 
 # Future Work
 
